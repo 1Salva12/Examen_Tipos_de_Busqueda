@@ -1,0 +1,292 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Examen Tipos de Búsqueda</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h2 {
+            color: #555;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        .menu-principal {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .opciones-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        .boton-menu {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+        .boton-menu:hover {
+            background: linear-gradient(135deg, #0056b3, #003d82);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,86,179,0.3);
+        }
+        .boton-menu small {
+            display: block;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+        fieldset {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        legend {
+            background: #007bff;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 3px;
+            font-weight: bold;
+        }
+        label {
+            display: block;
+            margin: 15px 0;
+            color: #333;
+            font-weight: 500;
+        }
+        input[type="text"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 3px;
+            width: 100%;
+            box-sizing: border-box;
+            margin-top: 5px;
+            font-size: 14px;
+        }
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0,123,255,0.3);
+        }
+        .botones {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .boton-ejecutar {
+            background: #28a745;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            flex: 1;
+            transition: background 0.3s ease;
+        }
+        .boton-ejecutar:hover {
+            background: #218838;
+        }
+        .boton-atras {
+            background: #6c757d;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .boton-atras:hover {
+            background: #5a6268;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .resultado {
+            background: white;
+            border-left: 5px solid #28a745;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .resultado ol {
+            line-height: 2;
+            margin-left: 20px;
+        }
+        .resultado li {
+            margin: 8px 0;
+            background: #f9f9f9;
+            padding: 8px;
+            border-radius: 3px;
+        }
+        .costo {
+            background: #e7f3ff;
+            border: 2px solid #007bff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-size: 18px;
+            color: #0056b3;
+        }
+        .botones-resultado {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .boton-menu-resultado {
+            background: #007bff;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+        .boton-menu-resultado:hover {
+            background: #0056b3;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Examen Tipos de Búsqueda</h1>
+
+    {% if page == 'menu' %}
+        <!-- MENÚ PRINCIPAL -->
+        <div class="menu-principal">
+            <h2>Selecciona una búsqueda</h2>
+            <form method="post" id="menu-form">
+                {% csrf_token %}
+                <div class="opciones-menu">
+                    <button type="button" class="boton-menu" onclick="selectSearch('puzzle_dfs_rec')">
+                        <strong>Puzzle Lineal - DFS Recursiva</strong><br>
+                        <small>Resolver puzzle mediante búsqueda en profundidad recursiva</small>
+                    </button>
+                    <button type="button" class="boton-menu" onclick="selectSearch('puzzle_dfs_iter')">
+                        <strong>Puzzle Lineal - DFS Iterativa</strong><br>
+                        <small>Resolver puzzle mediante búsqueda en profundidad iterativa</small>
+                    </button>
+                    <button type="button" class="boton-menu" onclick="selectSearch('road_ucs')">
+                        <strong>Viaje por Carretera - UCS</strong><br>
+                        <small>Encontrar la ruta óptima con costo uniforme</small>
+                    </button>
+                </div>
+                <input type="hidden" name="search_option" id="search_option">
+                <input type="hidden" name="select_search" value="1">
+            </form>
+        </div>
+        <script>
+            function selectSearch(option) {
+                document.getElementById('search_option').value = option;
+                document.getElementById('menu-form').submit();
+            }
+        </script>
+
+    {% elif page == 'form' %}
+        <!-- FORMULARIO DE ENTRADA -->
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="task_option" value="{{ selected_option }}">
+
+            {% if selected_option == 'puzzle_dfs_rec' or selected_option == 'puzzle_dfs_iter' %}
+                <fieldset>
+                    <legend>Datos del Puzzle Lineal</legend>
+                    <label>Estado inicial (números separados por comas):<br>
+                        <input type="text" name="initial_state" value="{{ initial_state_text }}" required>
+                    </label>
+                    <label>Solución objetivo (números separados por comas):<br>
+                        <input type="text" name="solution_state" value="{{ solution_state_text }}" required>
+                    </label>
+                </fieldset>
+            {% elif selected_option == 'road_ucs' %}
+                <fieldset>
+                    <legend>Datos de Viaje por Carretera</legend>
+                    <label>Ciudad inicial:<br>
+                        <input type="text" name="ucs_start" value="{{ ucs_start }}" required>
+                    </label>
+                    <label>Ciudad objetivo:<br>
+                        <input type="text" name="ucs_goal" value="{{ ucs_goal }}" required>
+                    </label>
+                </fieldset>
+            {% endif %}
+
+            <div class="botones">
+                <button type="submit" class="boton-ejecutar">Ejecutar búsqueda</button>
+                <button type="submit" name="back_to_menu" value="1" class="boton-atras">Volver al menú</button>
+            </div>
+        </form>
+
+    {% elif page == 'result' %}
+        <!-- RESULTADOS -->
+        {% if error_message %}
+            <div class="error">
+                <strong>Error:</strong> {{ error_message }}
+            </div>
+        {% endif %}
+
+        {% if result_path %}
+            <div class="resultado">
+                <h2>✓ Búsqueda Completada</h2>
+                <p><strong>Algoritmo:</strong> {{ selected_option }}</p>
+                <p><strong>Camino encontrado:</strong></p>
+                <ol>
+                    {% for paso in result_path %}
+                        <li>{{ paso }}</li>
+                    {% endfor %}
+                </ol>
+                {% if result_cost is not None %}
+                    <div class="costo">
+                        Costo total: <strong>{{ result_cost }}</strong>
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="resultado">
+                <h2>✗ Sin solución</h2>
+                <p style="color: #d32f2f;">No se encontró solución con los datos ingresados.</p>
+            </div>
+        {% endif %}
+
+        <div class="botones-resultado">
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="back_to_menu" value="1" class="boton-menu-resultado">Volver al menú</button>
+            </form>
+        </div>
+
+    {% endif %}
+</body>
+
+</html>
