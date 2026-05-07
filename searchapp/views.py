@@ -11,7 +11,7 @@ def parse_estado_lista(texto):
     return [int(item.strip()) for item in texto.split(",") if item.strip()]
 
 def index(request):
-    # Grafos de datos
+    # Diccionarios de datos
     conexiones_ucs = {
         "jiloyork": {"CDMX": 125, "QRO": 513},
         "MORELOS": {"QRO": 524},
@@ -39,7 +39,14 @@ def index(request):
         "Tamaulipas": {"Queretaro"},
     }
 
-    # Valores por defecto para los formularios
+    # Extraer listas de ciudades únicas para los select
+    ciudades_bfs = sorted(list(conexiones_bfs.keys()))
+    # Para UCS, también incluimos ciudades que solo aparecen como destino
+    ciudades_ucs = set(conexiones_ucs.keys())
+    for destinos in conexiones_ucs.values():
+        ciudades_ucs.update(destinos.keys())
+    ciudades_ucs = sorted(list(ciudades_ucs))
+
     context = {
         "initial_state_text": "4,2,3,1",
         "solution_state_text": "1,2,3,4",
@@ -47,13 +54,15 @@ def index(request):
         "bfs_goal": "Zacatecas",
         "ucs_start": "jiloyork",
         "ucs_goal": "AGS",
+        "ciudades_bfs": ciudades_bfs,
+        "ciudades_ucs": ciudades_ucs,
         "mostrar_resultados": False
     }
 
     if request.method == "POST":
         context["mostrar_resultados"] = True
         
-        # Actualizar valores con lo enviado por el usuario
+        # Obtener datos del formulario
         context.update({
             "initial_state_text": request.POST.get("initial_state"),
             "solution_state_text": request.POST.get("solution_state"),
@@ -63,29 +72,26 @@ def index(request):
             "ucs_goal": request.POST.get("ucs_goal"),
         })
 
-        # 1. Ejecutar Puzzle (DFS Rec)
+        # 1. Puzzle (DFS)
         try:
             init = parse_estado_lista(context["initial_state_text"])
             goal = parse_estado_lista(context["solution_state_text"])
-            nodo_puzzle = buscar_solucion_DFS_rec(Nodo(init), goal, [])
-            context["puzzle_res"] = reconstruir_camino(nodo_puzzle) if nodo_puzzle else None
-        except Exception as e:
-            context["puzzle_error"] = str(e)
+            nodo_p = buscar_solucion_DFS_rec(Nodo(init), goal, [])
+            context["puzzle_res"] = reconstruir_camino(nodo_p) if nodo_p else None
+        except Exception as e: context["puzzle_error"] = str(e)
 
-        # 2. Ejecutar Vuelos (BFS)
+        # 2. Vuelos (BFS)
         try:
-            nodo_bfs = buscar_solucion_BFS(conexiones_bfs, context["bfs_start"].strip(), context["bfs_goal"].strip())
-            context["bfs_res"] = reconstruir_camino(nodo_bfs) if nodo_bfs else None
-        except Exception as e:
-            context["bfs_error"] = str(e)
+            nodo_b = buscar_solucion_BFS(conexiones_bfs, context["bfs_start"], context["bfs_goal"])
+            context["bfs_res"] = reconstruir_camino(nodo_b) if nodo_b else None
+        except Exception as e: context["bfs_error"] = str(e)
 
-        # 3. Ejecutar Carretera (UCS)
+        # 3. Carretera (UCS)
         try:
-            nodo_ucs = buscar_solucion_UCS(conexiones_ucs, context["ucs_start"].strip(), context["ucs_goal"].strip())
-            if nodo_ucs:
-                context["ucs_res"] = reconstruir_camino(nodo_ucs)
-                context["ucs_costo"] = nodo_ucs.get_costo()
-        except Exception as e:
-            context["ucs_error"] = str(e)
+            nodo_u = buscar_solucion_UCS(conexiones_ucs, context["ucs_start"], context["ucs_goal"])
+            if nodo_u:
+                context["ucs_res"] = reconstruir_camino(nodo_u)
+                context["ucs_costo"] = nodo_u.get_costo()
+        except Exception as e: context["ucs_error"] = str(e)
 
     return render(request, "searchapp/index.html", context)
