@@ -1,292 +1,92 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Examen Tipos de Búsqueda</title>
+    <title>Examen Búsquedas Simultáneas</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 900px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        h2 {
-            color: #555;
-            border-bottom: 2px solid #007bff;
-            padding-bottom: 10px;
-        }
-        .menu-principal {
-            background: white;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .opciones-menu {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .boton-menu {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-            padding: 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: left;
-            transition: all 0.3s ease;
-        }
-        .boton-menu:hover {
-            background: linear-gradient(135deg, #0056b3, #003d82);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,86,179,0.3);
-        }
-        .boton-menu small {
-            display: block;
-            margin-top: 5px;
-            opacity: 0.9;
-        }
-        fieldset {
-            background: white;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-        legend {
-            background: #007bff;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 3px;
-            font-weight: bold;
-        }
-        label {
-            display: block;
-            margin: 15px 0;
-            color: #333;
-            font-weight: 500;
-        }
-        input[type="text"] {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 3px;
-            width: 100%;
-            box-sizing: border-box;
-            margin-top: 5px;
-            font-size: 14px;
-        }
-        input[type="text"]:focus {
-            border-color: #007bff;
-            outline: none;
-            box-shadow: 0 0 5px rgba(0,123,255,0.3);
-        }
-        .botones {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .boton-ejecutar {
-            background: #28a745;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            flex: 1;
-            transition: background 0.3s ease;
-        }
-        .boton-ejecutar:hover {
-            background: #218838;
-        }
-        .boton-atras {
-            background: #6c757d;
-            color: white;
-            padding: 12px 25px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s ease;
-        }
-        .boton-atras:hover {
-            background: #5a6268;
-        }
-        .error {
-            background: #f8d7da;
-            color: #721c24;
-            border: 2px solid #f5c6cb;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-        }
-        .resultado {
-            background: white;
-            border-left: 5px solid #28a745;
-            padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .resultado ol {
-            line-height: 2;
-            margin-left: 20px;
-        }
-        .resultado li {
-            margin: 8px 0;
-            background: #f9f9f9;
-            padding: 8px;
-            border-radius: 3px;
-        }
-        .costo {
-            background: #e7f3ff;
-            border: 2px solid #007bff;
-            padding: 15px;
-            border-radius: 5px;
-            margin-top: 15px;
-            font-size: 18px;
-            color: #0056b3;
-        }
-        .botones-resultado {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .boton-menu-resultado {
-            background: #007bff;
-            color: white;
-            padding: 12px 30px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s ease;
-        }
-        .boton-menu-resultado:hover {
-            background: #0056b3;
-        }
-        p {
-            color: #666;
-        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; }
+        .grid-forms { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        h2 { color: #007bff; font-size: 1.2rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        input { width: 100%; padding: 8px; margin: 10px 0; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        .btn-submit { width: 100%; padding: 15px; background: #28a745; color: white; border: none; border-radius: 8px; font-size: 1.1rem; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #218838; }
+        .results-container { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .res-card { background: #fff; padding: 15px; border-radius: 8px; border-top: 5px solid #007bff; }
+        .costo { background: #e7f3ff; color: #0056b3; padding: 10px; border-radius: 5px; font-weight: bold; margin-top: 10px; }
+        .error { color: #dc3545; font-size: 0.9rem; }
+        ul { padding-left: 20px; font-size: 0.9rem; }
     </style>
-
 </head>
 <body>
-    <h1>Examen Tipos de Búsqueda</h1>
-
-    {% if page == 'menu' %}
-        <!-- MENÚ PRINCIPAL -->
-        <div class="menu-principal">
-            <h2>Selecciona una búsqueda</h2>
-            <form method="post" id="menu-form">
-                {% csrf_token %}
-                <div class="opciones-menu">
-                    <button type="button" class="boton-menu" onclick="selectSearch('puzzle_dfs_rec')">
-                        <strong>Puzzle Lineal - DFS Recursiva</strong><br>
-                        <small>Resolver puzzle mediante búsqueda en profundidad recursiva</small>
-                    </button>
-                    <button type="button" class="boton-menu" onclick="selectSearch('puzzle_dfs_iter')">
-                        <strong>Puzzle Lineal - DFS Iterativa</strong><br>
-                        <small>Resolver puzzle mediante búsqueda en profundidad iterativa</small>
-                    </button>
-                    <button type="button" class="boton-menu" onclick="selectSearch('road_ucs')">
-                        <strong>Viaje por Carretera - UCS</strong><br>
-                        <small>Encontrar la ruta óptima con costo uniforme</small>
-                    </button>
-                </div>
-                <input type="hidden" name="search_option" id="search_option">
-                <input type="hidden" name="select_search" value="1">
-            </form>
-        </div>
-        <script>
-            function selectSearch(option) {
-                document.getElementById('search_option').value = option;
-                document.getElementById('menu-form').submit();
-            }
-        </script>
-
-    {% elif page == 'form' %}
-        <!-- FORMULARIO DE ENTRADA -->
+    <div class="container">
+        <h1>Panel de Control: Búsquedas de IA</h1>
+        
         <form method="post">
             {% csrf_token %}
-            <input type="hidden" name="task_option" value="{{ selected_option }}">
+            <div class="grid-forms">
+                <!-- Form Puzzle -->
+                <div class="card">
+                    <h2>1. Puzzle Lineal (DFS)</h2>
+                    <label>Inicio:</label>
+                    <input type="text" name="initial_state" value="{{ initial_state_text }}">
+                    <label>Objetivo:</label>
+                    <input type="text" name="solution_state" value="{{ solution_state_text }}">
+                </div>
 
-            {% if selected_option == 'puzzle_dfs_rec' or selected_option == 'puzzle_dfs_iter' %}
-                <fieldset>
-                    <legend>Datos del Puzzle Lineal</legend>
-                    <label>Estado inicial (números separados por comas):<br>
-                        <input type="text" name="initial_state" value="{{ initial_state_text }}" required>
-                    </label>
-                    <label>Solución objetivo (números separados por comas):<br>
-                        <input type="text" name="solution_state" value="{{ solution_state_text }}" required>
-                    </label>
-                </fieldset>
-            {% elif selected_option == 'road_ucs' %}
-                <fieldset>
-                    <legend>Datos de Viaje por Carretera</legend>
-                    <label>Ciudad inicial:<br>
-                        <input type="text" name="ucs_start" value="{{ ucs_start }}" required>
-                    </label>
-                    <label>Ciudad objetivo:<br>
-                        <input type="text" name="ucs_goal" value="{{ ucs_goal }}" required>
-                    </label>
-                </fieldset>
-            {% endif %}
+                <!-- Form BFS -->
+                <div class="card">
+                    <h2>2. Vuelos (BFS)</h2>
+                    <label>Origen:</label>
+                    <input type="text" name="bfs_start" value="{{ bfs_start }}">
+                    <label>Destino:</label>
+                    <input type="text" name="bfs_goal" value="{{ bfs_goal }}">
+                </div>
 
-            <div class="botones">
-                <button type="submit" class="boton-ejecutar">Ejecutar búsqueda</button>
-                <button type="submit" name="back_to_menu" value="1" class="boton-atras">Volver al menú</button>
+                <!-- Form UCS -->
+                <div class="card">
+                    <h2>3. Carretera (UCS)</h2>
+                    <label>Origen:</label>
+                    <input type="text" name="ucs_start" value="{{ ucs_start }}">
+                    <label>Destino:</label>
+                    <input type="text" name="ucs_goal" value="{{ ucs_goal }}">
+                </div>
             </div>
+            <button type="submit" class="btn-submit">Calcular Todas las Rutas</button>
         </form>
 
-    {% elif page == 'result' %}
-        <!-- RESULTADOS -->
-        {% if error_message %}
-            <div class="error">
-                <strong>Error:</strong> {{ error_message }}
+        {% if mostrar_resultados %}
+        <div class="results-container">
+            <!-- Resultado Puzzle -->
+            <div class="res-card">
+                <h3>Resultado DFS</h3>
+                {% if puzzle_res %}
+                    <ul>{% for p in puzzle_res %}<li>{{ p }}</li>{% endfor %}</ul>
+                {% elif puzzle_error %}<p class="error">{{ puzzle_error }}</p>
+                {% else %}<p>No se encontró camino.</p>{% endif %}
             </div>
-        {% endif %}
 
-        {% if result_path %}
-            <div class="resultado">
-                <h2>✓ Búsqueda Completada</h2>
-                <p><strong>Algoritmo:</strong> {{ selected_option }}</p>
-                <p><strong>Camino encontrado:</strong></p>
-                <ol>
-                    {% for paso in result_path %}
-                        <li>{{ paso }}</li>
-                    {% endfor %}
-                </ol>
-                {% if result_cost is not None %}
-                    <div class="costo">
-                        Costo total: <strong>{{ result_cost }}</strong>
-                    </div>
-                {% endif %}
+            <!-- Resultado BFS -->
+            <div class="res-card">
+                <h3>Resultado BFS</h3>
+                {% if bfs_res %}
+                    <ul>{% for b in bfs_res %}<li>{{ b }}</li>{% endfor %}</ul>
+                {% elif bfs_error %}<p class="error">{{ bfs_error }}</p>
+                {% else %}<p>No se encontró camino.</p>{% endif %}
             </div>
-        {% else %}
-            <div class="resultado">
-                <h2>✗ Sin solución</h2>
-                <p style="color: #d32f2f;">No se encontró solución con los datos ingresados.</p>
-            </div>
-        {% endif %}
 
-        <div class="botones-resultado">
-            <form method="post">
-                {% csrf_token %}
-                <button type="submit" name="back_to_menu" value="1" class="boton-menu-resultado">Volver al menú</button>
-            </form>
+            <!-- Resultado UCS -->
+            <div class="res-card" style="border-top-color: #ffc107;">
+                <h3>Resultado UCS</h3>
+                {% if ucs_res %}
+                    <ul>{% for u in ucs_res %}<li>{{ u }}</li>{% endfor %}</ul>
+                    <div class="costo">Costo Total: {{ ucs_costo }}</div>
+                {% elif ucs_error %}<p class="error">{{ ucs_error }}</p>
+                {% else %}<p>No se encontró camino.</p>{% endif %}
+            </div>
         </div>
-
-    {% endif %}
+        {% endif %}
+    </div>
 </body>
-
 </html>

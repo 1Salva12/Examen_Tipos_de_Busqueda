@@ -101,6 +101,33 @@ def buscar_solucion_DFS(estado_inicial, solucion):
     return None
 
 
+def buscar_solucion_BFS(conexiones, estado_inicial, solucion):
+    nodo_inicial = Nodo(estado_inicial)
+    nodos_visitados = []
+    nodos_frontera = [nodo_inicial]
+
+    while nodos_frontera:
+        nodo = nodos_frontera.pop(0)
+        nodos_visitados.append(nodo)
+
+        if nodo.get_datos() == solucion:
+            return nodo
+
+        dato_nodo = nodo.get_datos()
+        lista_hijos = []
+        
+        if dato_nodo in conexiones:
+            for un_hijo in conexiones[dato_nodo]:
+                hijo = Nodo(un_hijo, nodo)
+                lista_hijos.append(hijo)
+                if not hijo.en_lista(nodos_visitados) and not hijo.en_lista(nodos_frontera):
+                    nodos_frontera.append(hijo)
+        
+        nodo.set_hijos(lista_hijos)
+
+    return None
+
+
 def buscar_solucion_UCS(conexiones, estado_inicial, solucion):
     nodo_inicial = Nodo(estado_inicial)
     nodo_inicial.set_costo(0)
